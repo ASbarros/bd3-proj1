@@ -31,10 +31,23 @@ public class Factory {
         }
     }
 
-    public static Connection createConnection() {
+    public static Connection getConnectionDefult() {
         if (objConexao == null) {
             Factory KEEPCONNECTION = new Factory();
         }
         return objConexao;
+    }
+
+    public static Connection getConnectionCustom() {
+        Connection cnx = null;
+        try {
+            Class.forName(STR_DRIVER);
+            cnx = DriverManager.getConnection(STR_CON, USER, PASSWORD);
+            cnx.setAutoCommit(false);
+            cnx.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("ERRO AO GERAR NOVA CONEXAO: " + ex.getMessage());
+        }
+        return null;
     }
 }

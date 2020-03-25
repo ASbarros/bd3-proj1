@@ -12,7 +12,7 @@ public class ExtractDAO {
     }
 
     public void insert(ExtractModel obj) {
-        Connection connection = Factory.createConnection();
+        Connection connection = Factory.getConnectionDefult();
         String sql = "insert into extract (description, value, type, idAccount) values (?, ?, ?, ?)";
 
         try {
@@ -28,7 +28,7 @@ public class ExtractDAO {
     }
 
     public void update(ExtractModel obj) {
-        Connection connection = Factory.createConnection();
+        Connection connection = Factory.getConnectionDefult();
         String sql = "update extract set description = ?, value = ?, type = ?, idAccount = ? where id = ? ";//perguntar se são esses campos mesmo
 
         try {
@@ -45,7 +45,7 @@ public class ExtractDAO {
     }
 
     public void delete(int index) {
-        Connection connection = Factory.createConnection();
+        Connection connection = Factory.getConnectionDefult();
         String sql = "delete extract where id = " + index;
 
         try {
@@ -57,7 +57,7 @@ public class ExtractDAO {
     }
 
     public ExtractModel get(int index) {
-        Connection conexao = Factory.createConnection();
+        Connection conexao = Factory.getConnectionDefult();
         String sql = "select id, description, value, type, idAccount from extract where id = ?";
 
         try {
