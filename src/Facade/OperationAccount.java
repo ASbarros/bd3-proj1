@@ -42,7 +42,7 @@ public class OperationAccount {
             System.out.println("Saldo insuficiente!");
         }
     }
-    
+
     public static void deposit(AccountModel account, double val) {
         if (val > 0) {
             Connection cnx = Factory.getConnectionCustom();
@@ -74,8 +74,8 @@ public class OperationAccount {
             System.out.println("Deposito tem que ter valor válido!");
         }
     }
-    
-     public static void transfer(AccountModel account1, AccountModel account2, double val) {
+
+    public static void transfer(AccountModel account1, AccountModel account2, double val) {
         if (val > 0 && account1.getBalance() > val) {
             Connection cnx = Factory.getConnectionCustom();
             try {
@@ -92,14 +92,14 @@ public class OperationAccount {
                 extract2.setValue(val);
                 extract2.setDate(new Date());
                 extract2.setAccount(account2);
-                
+
                 ExtractDAO daoExtract = new ExtractDAO();
                 daoExtract.insert(extract1);
                 daoExtract.insert(extract2);
 
                 account1.setBalance(account1.getBalance() - val);
                 account2.setBalance(account2.getBalance() + val);
-                
+
                 AccountDAO daoAccount = new AccountDAO();
                 daoAccount.update(account1);
                 daoAccount.update(account2);
@@ -115,6 +115,34 @@ public class OperationAccount {
             }
         } else {
             System.out.println("Deposito tem que ter valor válido!");
+        }
+    }
+
+    public static void income(AccountModel account) {
+        Connection cnx = Factory.getConnectionCustom();
+        try {
+            ExtractModel extract = new ExtractModel();
+            extract.setDescription("Rendimento");
+            extract.setType(1);
+            extract.setValue(0.10);
+            extract.setDate(new Date());
+            extract.setAccount(account);
+
+            ExtractDAO daoExtract = new ExtractDAO();
+            daoExtract.insert(extract);
+
+            account.setBalance(account.getBalance() + (account.getBalance() * 0.1));
+            AccountDAO daoAccount = new AccountDAO();
+            daoAccount.update(account);
+
+            cnx.commit();
+        } catch (SQLException e) {
+            System.err.println("Erro ao realizar saque: " + e.getMessage());
+            try {
+                cnx.rollback();
+            } catch (SQLException er) {
+                System.out.println("erro : " + er.getMessage());
+            }
         }
     }
 }

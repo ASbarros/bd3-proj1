@@ -48,4 +48,11 @@ public class CntrlAccount {
 
         OperationAccount.transfer(account1, account2, val);
     }
+     
+    public static void income(int idAccount) {
+        AccountDAO daoAccount = new AccountDAO();
+        AccountModel account = daoAccount.get(idAccount);
+
+        OperationAccount.income(account);
+    }
 }
