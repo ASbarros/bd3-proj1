@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class OperationAccount {
 
-    public static void BankDraft(AccountModel account, double val) {
+    public static void bankDraft(AccountModel account, double val) {
         if (account.getBalance() >= val) {
             Connection cnx = Factory.getConnectionCustom();
             try {
@@ -40,6 +40,38 @@ public class OperationAccount {
             }
         } else {
             System.out.println("Saldo insuficiente!");
+        }
+    }
+    
+    public static void deposit(AccountModel account, double val) {
+        if (val > 0) {
+            Connection cnx = Factory.getConnectionCustom();
+            try {
+                ExtractModel extract = new ExtractModel();
+                extract.setDescription("Deposito");
+                extract.setType(1);
+                extract.setValue(val);
+                extract.setDate(new Date());
+                extract.setAccount(account);
+
+                ExtractDAO daoExtract = new ExtractDAO();
+                daoExtract.insert(extract);
+
+                account.setBalance(account.getBalance() + val);
+                AccountDAO daoAccount = new AccountDAO();
+                daoAccount.update(account);
+
+                cnx.commit();
+            } catch (SQLException e) {
+                System.err.println("Erro ao realizar deposito: " + e.getMessage());
+                try {
+                    cnx.rollback();
+                } catch (SQLException er) {
+                    System.out.println("erro : " + er.getMessage());
+                }
+            }
+        } else {
+            System.out.println("Deposito tem que ter valor válido!");
         }
     }
 }

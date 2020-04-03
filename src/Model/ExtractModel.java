@@ -12,7 +12,7 @@ public class ExtractModel {
     double value;
     int type;
     AccountModel account;
-    Calendar date;
+    Calendar date = Calendar.getInstance();
     int DATA_BD = 0;
 
     public Calendar getDate() {

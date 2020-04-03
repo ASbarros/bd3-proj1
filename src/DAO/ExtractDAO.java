@@ -2,8 +2,10 @@ package DAO;
 
 import Model.ExtractModel;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ExtractDAO {
 
@@ -20,9 +22,10 @@ public class ExtractDAO {
             pst.setString(1, obj.getDescription());
             pst.setDouble(2, obj.getValue());
             pst.setInt(3, obj.getType());
+            //pst.setDate(4, (Date) obj.getDate().getTime());
             pst.setInt(4, obj.getAccount().getId());
             pst.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erro ao salval o objeto: " + e.getMessage());
         }
     }

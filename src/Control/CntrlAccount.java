@@ -15,22 +15,29 @@ public class CntrlAccount {
             dao.update(account);
         }
     }
-    
+
     public static void delete(int key) {
         AccountDAO dao = new AccountDAO();
         dao.delete(key);
     }
-    
-    public static String[] get(int key){
-        AccountDAO dao  = new AccountDAO();
+
+    public static String[] get(int key) {
+        AccountDAO dao = new AccountDAO();
         AccountModel account = dao.get(key);
         return account.toArray();
     }
-    
-    public static void BankDraft(int idAccount, double val){
+
+    public static void bankDraft(int idAccount, double val) {
         AccountDAO daoAccount = new AccountDAO();
         AccountModel account = daoAccount.get(idAccount);
-        
-        OperationAccount.BankDraft(account, val);
+
+        OperationAccount.bankDraft(account, val);
+    }
+
+    public static void deposit(int idAccount, double val) {
+        AccountDAO daoAccount = new AccountDAO();
+        AccountModel account = daoAccount.get(idAccount);
+
+        OperationAccount.deposit(account, val);
     }
 }

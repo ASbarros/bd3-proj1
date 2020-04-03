@@ -24,7 +24,7 @@ public class Factory {
             } catch (SQLException ex) {
                 Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("deu certo");
+            System.out.println("Conexão com o banco de dados estabelecida!");
         } catch (ClassNotFoundException e) {
             String errorMsg = "Driver nao encontrado: " + e.getMessage();
             System.out.println(errorMsg);
