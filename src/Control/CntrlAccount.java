@@ -40,4 +40,12 @@ public class CntrlAccount {
 
         OperationAccount.deposit(account, val);
     }
+    
+    public static void transfer(int idAccount1, int idAccount2, double val) {
+        AccountDAO daoAccount = new AccountDAO();
+        AccountModel account1 = daoAccount.get(idAccount1);
+        AccountModel account2 = daoAccount.get(idAccount2);
+
+        OperationAccount.transfer(account1, account2, val);
+    }
 }
