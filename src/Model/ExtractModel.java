@@ -4,14 +4,36 @@ import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "ExtractModel.todos", query = "SELECT e FROM ExtractModel e")
+    ,
+    @NamedQuery(name = "ExtractModel.descricaoEValorComDataDeHojeEDoTipoS", query = "SELECT e.description, e.value FROM ExtractModel e WHERE e.type = :type AND e.date = CURRENT_DATE")
+    ,
+@NamedQuery(name = "ExtractModel.codigoDescricaoEDescricaoDaConta", query = "SELECT e.id, e.description, e.value, a.description FROM ExtractModel e, Account a WHERE e.account_id = a.id"),})
 public class ExtractModel {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    @Column
     String description;
+    @Column
     double value;
+    @Column
     int type;
+    @ManyToOne
     AccountModel account;
+    @Column
     Calendar date = Calendar.getInstance();
     int DATA_BD = 0;
 

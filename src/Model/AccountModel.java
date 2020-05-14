@@ -1,6 +1,22 @@
 package Model;
 
-public class AccountModel {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+
+@NamedQueries({
+    @NamedQuery(name="AccountModel.todas",query = "SELECT a FROM AccountModel a"),
+    @NamedQuery(name="AccountModel.saldoMaiorQueZero",query = "SELECT a FROM AccountModel a WHERE a.balance > 0"),
+    @NamedQuery(name = "AccountModel.maiorSaldo",query = "SELECT MAX(a.balance) FROM AccountModel a")
+})
+@Entity
+public class AccountModel implements Serializable {
 
     public AccountModel() {
     }
@@ -9,9 +25,12 @@ public class AccountModel {
         this.setBalance(balance);
         this.setDesc(desc);
     }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    String desc;
+    @Column
+    String description;
+    @Column
     double balance;
 
     public int getId() {
@@ -23,11 +42,11 @@ public class AccountModel {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
     public double getBalance() {
